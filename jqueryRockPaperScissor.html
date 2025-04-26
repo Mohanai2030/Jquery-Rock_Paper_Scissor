@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors</title>
+  <style>
+     button:not(.no,.computer) {
+      height: 160px;
+      width: 160px;
+      border-radius: 50%;
+      border: solid white;
+      cursor: pointer;
+      margin:15px;
+      background-color: transparent;
+    }
+
+    button:hover {
+      background-color: grey;
+    }
+
+    body {
+      background-color: black;
+      color:white;
+      font-size: larger;
+    } 
+
+    div.visual {
+      font-size: 30px;
+      height:30%;
+    }
+    div.resu {
+      font-size: 30px;
+      height: 10%;
+      text-align: left;
+      position:relative;
+      right:5%;
+    }
+
+    button.bottom{
+      height:50px;
+      width:75px;
+     }
+
+    div.flex {
+      display: grid;
+      grid-template-columns: 100px 100px;
+    }
+
+    div.flexbox
+    {
+      display:flex;
+      flex-direction:column;
+      justify-content: space-around;
+      align-items:center;
+    }
+
+     div.aboveall
+    {
+      display:grid;
+      height:100svh;
+      grid-template-rows: 10% 30% 40% 5%;
+      justify-items:center;
+      
+    } 
+    div.imgflex
+    {
+      display:flex;
+      justify-content: center;
+      align-items:center;
+    }
+
+    div.flex
+    {
+      display:flex;
+      justify-content: space-between;
+      width:30%;
+    }
+    
+    div.flexbox div
+    {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="aboveall">
+    <div><h1>Rock Paper Scissor</h1></div>
+    <div class="imgflex">
+      <button onclick="play(1)"><img src="Rock emoji.png" height="100px" width="100px"></button>
+      <button onclick="play(2)"><img src="paper emoji.png" height="100px" width="100px"></button>
+      <button onclick="play(3)"><img src="peace see.png" height="100px" width="100px"></button>
+    </div>
+    
+    <div class="flexbox">
+      <div class="resu"></div>
+      <div class="visual"></div>
+      <div class="comparis"></div>
+      <div class="scorecar"></div>
+    </div>
+    <div class="flex">
+        <div><button class="no bottom">Reset Scorecard</button></div>
+        <div><button class="computer bottom">Auto Play</button></div>
+    </div>
+</div>
+  <script src="jquery.js"></script>
+  <script type="text/javascript">
+    $("button.no.bottom").click(()=>{resetscorecard()})
+    $("button.computer.bottom").click(()=>{chantext()})
+
+    let scorecard =JSON.parse(localStorage.getItem('scorecard'))|| {
+      wins:0,
+      losses:0,
+      tie:0
+    };
+       let result = $(".resu");
+       let comparison = $(".comparis");
+       let scorecar = $(".scorecar");
+       let see = $('.visual');
+       function play(x){
+       user=x;
+       var comp=Math.floor((Math.random() *3)+1);
+       switch (user)
+       {
+        case 1:
+          if (comp==2)
+          { 
+            scorecard.losses+=1;
+            result.text("You lost");
+            comparison.html("You chose rock.computer chose paper.")
+            scorecar.html(`Wins=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+            see.html("You <img src='Rock emoji see.png'> vs <img src='paper see.png'>Computer");
+
+          }else if (comp==3) {
+            scorecard.wins+=1;
+            result.text("You won");
+            comparison.html("you chose rock.computer chose scissors.");
+            scorecar.html(`Wins=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+            see.html("You<img src='Rock emoji see.png'>  vs <img src='peace see.png'>Computer");
+          }else {
+            scorecard.tie+=1;
+            result.text("Tie");
+            comparison.html("you chose rock.computer chose rock.");
+            scorecar.html(`Wins=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+            see.html("You<img src='Rock emoji see.png' >  vs <img src='Rock emoji see.png'>Computer ") ;
+          }break;
+
+        case 2:
+          if (comp==1)
+          {  scorecard.wins+=1;
+             result.text("You won");
+             comparison.html("You chose paper.Computer chose rock.");
+             scorecar.html(`Win=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+             see.html(" You<img src='paper see.png'> vs <img src='Rock emoji see.png'>Computer");
+           
+          }else if (comp==3) {
+            scorecard.losses+=1;
+            result.text("You lost");
+            comparison.html("you chose paper.computer chose scissors.");
+            scorecar.html(`Win=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+            see.html(" You<img src='paper see.png'> vs <img src='peace see.png'>Computer");
+          }else {
+            scorecard.tie+=1;
+            result.text("Tie");
+            comparison.html("you chose paper.computer chose paper.");
+            scorecar.html(`Win=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+            see.html(" You<img src='paper see.png'> vs <img src='paper see.png'>Computer");
+          }break;
+
+        case 3:
+          if (comp==1)
+          { scorecard.losses+=1;
+            result.text("You lost");
+            comparison.html("You chose scissors.Computer chose rock.");
+            scorecar.html(`Win=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+            see.html("You<img src='peace see.png'> vs <img src='Rock emoji see.png'>Computer");
+           
+          }else if (comp==3) {
+            scorecard.wins+=1;
+            result.text("You won");
+            comparison.innerHTML="You chose scissors.computer chose paper.";
+            scorecar.html(`Win=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+            see.html("You<img src='peace see.png'> vs <img src='paper see.png'>Computer");
+          }else {
+            scorecard.tie+=1;
+            result.text("Tie");
+            comparison.html("You chose scisssors.computer chose scisssors.");
+            scorecar.html(`Win=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+            see.html("You<img src='peace see.png'> vs <img src='peace see.png'>Computer");
+          }break;
+       }
+       localStorage.setItem('scorecard',JSON.stringify(scorecard));
+       }; 
+       
+       function resetscorecard() {
+        scorecard.wins=0;
+        scorecard.losses=0;
+        scorecard.tie=0;
+        scorecar.html(`Wins=${scorecard.wins}, Loss=${scorecard.losses},Tie=${scorecard.tie}`);
+        comparison.html("");
+        $(".resu").text("");
+        see.html("");
+       };
+    
+       let pcplay;
+
+
+       function chantext() 
+       {    
+        
+        let complay =() => 
+         {
+            var hem= Math.floor((Math.random()*3)+1);
+            play(hem);
+          };
+         
+         let start=() => 
+         {
+          pcplay =setInterval(complay,1000);
+         }
+
+         let stop=() =>
+         {
+            clearInterval(pcplay);
+         }
+
+         if ($('.computer')[0].innerHTML == "Auto Play")
+         {
+          start();
+          $('.computer')[0].innerHTML="Stop Autoplay";
+         }else if($('.computer')[0].innerHTML=="Stop Autoplay"){
+           stop();
+           $('.computer')[0].innerHTML="Auto Play";
+         }
+        };   
+  </script>
+</body>
+</html>
